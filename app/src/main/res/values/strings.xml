@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">E-Live</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="msg_nfcoff">Le NFC est désactivé, veuillez activer le NFC.</string>
+    <string name="msg_nfcon">Le NFC est activé, veuillez passer le TAG.</string>
+    <string name="msg_nonfc">Le matériel ne dispose pas de la fonctionnalité NFC.</string>
+    <string name="elive_logo">E-Live Logo</string>
+</resources>
