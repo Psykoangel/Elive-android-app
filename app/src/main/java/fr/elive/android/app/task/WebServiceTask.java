@@ -43,6 +43,8 @@ public class WebServiceTask extends AsyncTask<Integer, Void, User> {
         if (user != null) {
             fragment.setUser(user);
             fragment.afficherListeTweets();
+        } else {
+            fragment.displayNoDataFound();
         }
     }
 }

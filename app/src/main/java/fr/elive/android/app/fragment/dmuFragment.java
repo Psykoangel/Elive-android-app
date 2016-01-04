@@ -5,6 +5,7 @@ package fr.elive.android.app.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,18 +39,26 @@ public class dmuFragment extends Fragment {
         List<Tweet> tweets = new ArrayList<Tweet>();
         tweets.add(new Tweet( "Prénom", getUser().getUserForname()));
         tweets.add(new Tweet( "Nom", getUser().getUserName()));
-        tweets.add(new Tweet( getUser().getRelationshipList().get(0).getRelationshipTypeCode() + " Prénom", getUser().getRelationshipList().get(0).getEntourageForname()));
-        tweets.add(new Tweet( getUser().getRelationshipList().get(0).getRelationshipTypeCode() + " Nom", getUser().getRelationshipList().get(0).getEntourageName()));
-        tweets.add(new Tweet( getUser().getRelationshipList().get(1).getRelationshipTypeCode() + " Prénom", getUser().getRelationshipList().get(1).getEntourageForname()));
-        tweets.add(new Tweet( getUser().getRelationshipList().get(1).getRelationshipTypeCode() + " Nom", getUser().getRelationshipList().get(1).getEntourageName()));
-        tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(0).getCmaValue()));
-        tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(1).getCmaValue()));
-        tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(2).getCmaValue()));
-        tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(3).getCmaValue()));
+
+        if (!getUser().getRelationshipList().isEmpty() ) {
+
+            tweets.add(new Tweet( getUser().getRelationshipList().get(0).getRelationshipTypeCode() + " Prénom", getUser().getRelationshipList().get(0).getEntourageForname()));
+            tweets.add(new Tweet( getUser().getRelationshipList().get(0).getRelationshipTypeCode() + " Nom", getUser().getRelationshipList().get(0).getEntourageName()));
+            tweets.add(new Tweet( getUser().getRelationshipList().get(1).getRelationshipTypeCode() + " Prénom", getUser().getRelationshipList().get(1).getEntourageForname()));
+            tweets.add(new Tweet( getUser().getRelationshipList().get(1).getRelationshipTypeCode() + " Nom", getUser().getRelationshipList().get(1).getEntourageName()));
+        }
+
+        if (!getUser().getUserCmaList().isEmpty()) {
+            for (int i = 0; i < getUser().getUserCmaList().size(); i++) {
+                tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(i).getCmaValue()));
+            }
+        }
+
         return tweets;
     }
 
     public void afficherListeTweets(){
+
         List<Tweet> tweets = genererTweets();
 
         TweetAdapter adapter = new TweetAdapter(context, tweets);
@@ -64,5 +73,20 @@ public class dmuFragment extends Fragment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+
+
+    public void showAlert(Context context, String title, String msg) {
+
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(context);
+        alertbox.setTitle(title);
+        alertbox.setMessage(msg);
+        alertbox.show();
+
+    }
+
+    public void displayNoDataFound() {
+        showAlert(v.getContext(), "Info", "No user found in Database.");
     }
 }
