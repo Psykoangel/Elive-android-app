@@ -36,8 +36,8 @@ public class FragmentsActivity extends FragmentActivity {
         nfcFrag = new nfcFragment();
 
         // Ajout des FragmentsActivity dans la liste
-        fragments.add(dmuFrag);
         fragments.add(nfcFrag);
+        fragments.add(dmuFrag);
 
         // Création de l'adapter qui s'occupera de l'affichage de la liste de FragmentsActivity
         PagerAdapter mPagerAdapter = new MyPagerAdapter(super.getSupportFragmentManager(), fragments);
@@ -48,7 +48,7 @@ public class FragmentsActivity extends FragmentActivity {
 
         Pair<Boolean, String> result = nfcWrapper.Instance().setNfcAdapter(this);
 
-        if (result != null && !result.first) nfcFrag.showAlert(nfcFrag.getActivity(), "Error", result.second);
+        if (result != null && !result.first) nfcFrag.showAlert(this, "Error", result.second);
     }
 
     @Override
@@ -66,6 +66,8 @@ public class FragmentsActivity extends FragmentActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
+        nfcFrag.showAlert(this, "Info", "Tag détecté !");
 
         String userId = nfcWrapper.Instance().handleTagIntent(intent);
         Integer id = Integer.parseInt(userId);

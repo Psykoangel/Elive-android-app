@@ -38,10 +38,10 @@ public class dmuFragment extends Fragment {
         List<Tweet> tweets = new ArrayList<Tweet>();
         tweets.add(new Tweet( "Prénom", getUser().getUserForname()));
         tweets.add(new Tweet( "Nom", getUser().getUserName()));
-        tweets.add(new Tweet( "Relation Prénom", getUser().getRelationshipList().get(0).getEntourageForname()));
-        tweets.add(new Tweet( "Relation Nom", getUser().getRelationshipList().get(0).getEntourageName()));
-        tweets.add(new Tweet( "Relation Prénom", getUser().getRelationshipList().get(1).getEntourageForname()));
-        tweets.add(new Tweet( "Relation Nom", getUser().getRelationshipList().get(1).getEntourageName()));
+        tweets.add(new Tweet( getUser().getRelationshipList().get(0).getRelationshipTypeCode() + " Prénom", getUser().getRelationshipList().get(0).getEntourageForname()));
+        tweets.add(new Tweet( getUser().getRelationshipList().get(0).getRelationshipTypeCode() + " Nom", getUser().getRelationshipList().get(0).getEntourageName()));
+        tweets.add(new Tweet( getUser().getRelationshipList().get(1).getRelationshipTypeCode() + " Prénom", getUser().getRelationshipList().get(1).getEntourageForname()));
+        tweets.add(new Tweet( getUser().getRelationshipList().get(1).getRelationshipTypeCode() + " Nom", getUser().getRelationshipList().get(1).getEntourageName()));
         tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(0).getCmaValue()));
         tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(1).getCmaValue()));
         tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(2).getCmaValue()));

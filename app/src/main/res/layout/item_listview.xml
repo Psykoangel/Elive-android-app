@@ -16,13 +16,15 @@
         <TextView android:id="@+id/titre"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:textSize="16px"
+            android:textSize="20dp"
+            android:textColor="@color/background_material_dark"
             android:textStyle="bold"
             />
 
         <TextView android:id="@+id/description"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:textSize="26dp"
             />
 
     </LinearLayout>

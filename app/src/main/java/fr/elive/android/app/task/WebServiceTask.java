@@ -31,7 +31,7 @@ public class WebServiceTask extends AsyncTask<Integer, Void, User> {
 
         //User u = new User(String.valueOf(params[0]), "Welhaisley");
 
-        if (u.validate())
+        if (u != null && u.validate())
             return u;
 
         return null;

@@ -25,7 +25,7 @@ import fr.elive.android.app.model.User;
  */
 public class WebServiceWrapper {
 
-    private final String ComputerIP = "192.168.1.26";
+    private final String ComputerIP = "10.167.128.56";
     private final String baseUrlPath = "http://" + ComputerIP + ":8080/elive/REST/";
     private final String urlUserPath = "USER/";
 
@@ -84,12 +84,15 @@ public class WebServiceWrapper {
     public User getUserInfos(int patientId) {
 
         try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        try {
+/*
+
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             User u = new User("Hervé", "MATYSIAK");
             RelationShip relationShip1 = new RelationShip("Charles", "MATYSIAK", 11);
             RelationShip relationShip2 = new RelationShip("Carmen", "MATYSIAK", 10);
@@ -108,7 +111,7 @@ public class WebServiceWrapper {
             u.setUserCmaList(cmaObjectList);
             u.setRelationshipList(relationShipList);
             return u;
-/*
+*/
             // Envoi de la requête
             InputStream inputStream = sendRequest(new URL(baseUrlPath + urlUserPath + patientId));
 
@@ -120,7 +123,7 @@ public class WebServiceWrapper {
                 // Retourne la liste désérialisée par le moteur GSON
                 return gson.fromJson(reader, new TypeToken<User>(){}.getType());
             }
-*/
+
         } catch (Exception e) {
             Log.e(this.getClass().getName(), e.getMessage());
         }
