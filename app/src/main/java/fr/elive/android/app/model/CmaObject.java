@@ -9,6 +9,17 @@ public class CmaObject {
     private String cmaLevel;
     private String cmaValue;
 
+    public CmaObject(String code1, String code2, String level, String value){
+        this.cmaCode1 = code1;
+        this.cmaCode2 = code2;
+        this.cmaLevel = level;
+        this.cmaValue = value;
+    }
+
+    public CmaObject() {
+
+    }
+
     public String getCmaCode1() {
         return cmaCode1;
     }

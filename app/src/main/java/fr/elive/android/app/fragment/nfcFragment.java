@@ -3,6 +3,7 @@ package fr.elive.android.app.fragment;
 /**
  * Created by chriis on 03/01/2016.
  */
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -10,17 +11,22 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import fr.elive.android.app.R;
+import fr.elive.android.app.wrapper.NfcWrapper;
 
 public class nfcFragment extends Fragment {
 
+    private NfcWrapper nfcWrapper;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.nfcfragment, container, false);
+
         Button button = (Button) v.findViewById(R.id.btnNFC);
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -29,17 +35,14 @@ public class nfcFragment extends Fragment {
             {
                 android.nfc.NfcAdapter mNfcAdapter = android.nfc.NfcAdapter.getDefaultAdapter(v.getContext());
 
-                AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getContext());
-
                 if (mNfcAdapter == null) {
-                    alertbox.setTitle("Info");
-                    alertbox.setMessage(getString(R.string.msg_nonfc));
-                    alertbox.show();
+                    showAlert(v.getContext(), "Info", getString(R.string.msg_nonfc));
                     return;
                 }
 
                 if (!mNfcAdapter.isEnabled()) {
 
+                    AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getContext());
 
                     alertbox.setTitle("Info");
                     alertbox.setMessage(getString(R.string.msg_nfcoff));
@@ -65,9 +68,7 @@ public class nfcFragment extends Fragment {
                     alertbox.show();
 
                 }else{
-                    alertbox.setTitle("Info");
-                    alertbox.setMessage(getString(R.string.msg_nfcon));
-                    alertbox.show();
+                    showAlert(v.getContext(), "Info", getString(R.string.msg_nfcon));
                 }
             }
         });
@@ -75,5 +76,13 @@ public class nfcFragment extends Fragment {
         return v;
     }
 
+    public void showAlert(Context context, String title, String msg) {
+
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(context);
+        alertbox.setTitle(title);
+        alertbox.setMessage(msg);
+        alertbox.show();
+
+    }
 
 }

@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
 
                         // On complete call either onLoginSuccess or onLoginFailed
-                        if((identifiant =="0123456789") & (password =="azerty"))
+                        if((identifiant =="elive") & (password =="elive"))
                         {
                             onLoginSuccess();
                         }
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         String identifiant = _identificationText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (identifiant.isEmpty() || identifiant.length()!=10) {
+        if (identifiant.isEmpty() || (identifiant.length()<=4 && identifiant.length()>10)) {
             _identificationText.setError("Entrer un identifiant valide");
             valid = false;
         } else {

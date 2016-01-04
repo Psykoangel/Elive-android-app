@@ -8,6 +8,16 @@ public class RelationShip {
     private String entourageName;
     private Integer relationshipTypeCode;
 
+    public RelationShip(String forname, String name, Integer type){
+        this.entourageForname = forname;
+        this.entourageName = name;
+        this.relationshipTypeCode = type;
+    }
+
+    public RelationShip() {
+
+    }
+
     public String getEntourageForname() {
         return entourageForname;
     }

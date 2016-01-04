@@ -7,10 +7,14 @@ import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
 import android.os.Parcelable;
+import android.util.Pair;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 
 /**
  * Created by Psyko on 29/12/2015.
@@ -31,23 +35,21 @@ public class NfcWrapper {
         mContext = null;
     }
 
-    public boolean setNfcAdapter(Context context){
-        if (mContext == null) {
+    public Pair<Boolean, String> setNfcAdapter(Context context){
+        if (mContext == null && context != null) {
             mContext = context;
-        }
+        } else return null;
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(mContext);
 
         if (mNfcAdapter == null) {
-            Toast.makeText(mContext, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
-            return false;
+            return new Pair<Boolean, String> (false, "This device doesn't support NFC.");
         }
 
         if (!mNfcAdapter.isEnabled()) {
-            Toast.makeText(mContext, "NFC is not enable.", Toast.LENGTH_LONG).show();
-            return false;
+            return new Pair<Boolean, String> (false, "NFC is not enable.");
         } else {
-            return true;
+            return new Pair<Boolean, String> (true, "");
         }
     }
 
@@ -63,21 +65,34 @@ public class NfcWrapper {
     }
 
     //To use in the onNewIntent() of the reading activity
-    public void handleTagIntent(Intent intent){
+    public String handleTagIntent(Intent intent){
         String action = intent.getAction();
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
 
-            /*
             String type = intent.getType();
+            Tag tag;
             if (MIME_TEXT_PLAIN.equals(type)) {
 
-                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                new NdefReaderTask().execute(tag);
+                tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
             } else {
-                Log.d(this.getClass().getName(), "Wrong mime type: " + type);
+                return null;
             }
-            */
+
+            Ndef ndef = Ndef.get(tag);
+            if (ndef == null) {
+                // NDEF is not supported by this Tag.
+                return null;
+            }
+
+            NdefMessage ndefMessage = ndef.getCachedNdefMessage();
+
+            NdefRecord[] records = ndefMessage.getRecords();
+            for (NdefRecord ndefRecord : records) {
+                if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
+                    return getTextData(ndefRecord.getPayload());
+                }
+            }
         } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
 
             // In case we would still use the Tech Discovered Intent
@@ -101,15 +116,19 @@ public class NfcWrapper {
                 for (int i = 0; i < rawMsgs.length; i++) {
                     messages[i] = (NdefMessage) rawMsgs[i];
 
-
-                    NdefRecord record = messages[i].getRecords()[i];
+                    NdefRecord record = messages[i].getRecords()[0];
+                    /*
                     byte[] id = record.getId();
                     short tnf = record.getTnf();
                     byte[] type = record.getType();
+                    */
                     String message = getTextData(record.getPayload());
+
+                    return message;
                 }
             }
         }
+        return "";
     }
 
     private String getTextData(byte[] payload) {
@@ -118,11 +137,14 @@ public class NfcWrapper {
 
         int languageCodeLength = payload[0] & 0063;
 
+        String text = "";
+
         try {
-            return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+            text = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return "";
+
+        return text.isEmpty() ? null : text;
     }
 }

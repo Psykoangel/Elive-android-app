@@ -62,10 +62,14 @@ public class User {
         this.userCmaList = userCmaList;
     }
 
+    public Boolean validate(){
+        return !(userName.isEmpty() || userForname.isEmpty());
+    }
+
     @Override
     public String toString()
     {
         return "User [id=" + id + ", userForname=" + userForname + ", " +
-                "userName=" + userName + ", roles= [" + relationshipList + "], cma=[" + userCmaList + "]]";
+                "userName=" + userName + ", relationShips= [" + relationshipList + "], cma=[" + userCmaList + "]]";
     }
 }

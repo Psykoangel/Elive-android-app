@@ -21,7 +21,7 @@ import fr.elive.android.app.model.User;
 public class dmuFragment extends Fragment {
     ListView listView;
     public View v;
-    public User user;
+    private User user;
     public Context context;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,20 +36,33 @@ public class dmuFragment extends Fragment {
 
     private List<Tweet> genererTweets(){
         List<Tweet> tweets = new ArrayList<Tweet>();
-        tweets.add(new Tweet( "Nom", user.getUserName()));
-        tweets.add(new Tweet( "Prénom", user.getUserForname()));
+        tweets.add(new Tweet( "Prénom", getUser().getUserForname()));
+        tweets.add(new Tweet( "Nom", getUser().getUserName()));
+        tweets.add(new Tweet( "Relation Prénom", getUser().getRelationshipList().get(0).getEntourageForname()));
+        tweets.add(new Tweet( "Relation Nom", getUser().getRelationshipList().get(0).getEntourageName()));
+        tweets.add(new Tweet( "Relation Prénom", getUser().getRelationshipList().get(1).getEntourageForname()));
+        tweets.add(new Tweet( "Relation Nom", getUser().getRelationshipList().get(1).getEntourageName()));
+        tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(0).getCmaValue()));
+        tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(1).getCmaValue()));
+        tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(2).getCmaValue()));
+        tweets.add(new Tweet( "Maladie", getUser().getUserCmaList().get(3).getCmaValue()));
         return tweets;
     }
 
-    private void afficherListeTweets(){
+    public void afficherListeTweets(){
         List<Tweet> tweets = genererTweets();
 
         TweetAdapter adapter = new TweetAdapter(context, tweets);
+        if (listView == null || adapter == null) return;
         listView.setAdapter(adapter);
     }
 
 
+    public User getUser() {
+        return user;
+    }
 
-
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
