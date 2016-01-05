@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -31,6 +33,14 @@ public class dmuFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.listViewDmu);
 
         return v;
+    }
+
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Add your menu entries here
+        menu.add("bite mole");
+        menu.add("grosse bite");
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 

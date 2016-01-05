@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:background="@color/iron"
         >
 
         <TextView android:id="@+id/titre"

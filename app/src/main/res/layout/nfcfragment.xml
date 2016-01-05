@@ -5,20 +5,13 @@
     android:orientation="vertical"
     android:id="@+id/nfcfragment">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Page du NFC"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"/>
-
     <Button
         android:id="@+id/btnNFC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:text="Vérification du NFC"/>
+        android:text="Vérification du NFC"
+        android:layout_centerInParent="true"/>
 
 </LinearLayout>
